@@ -1,0 +1,43 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="bitmap"></div>
+  <script>
+
+    const src = "van.jpg"
+    const imageHolder = document.createElement('img')
+    imageHolder.src = src
+    document.getElementById('bitmap').appendChild(imageHolder)
+    rotate(src, function (res) {
+      const img_res = document.createElement('img')
+      img_res.src = res
+      document.getElementById('bitmap').appendChild(img_res)
+    })
+
+    function rotate(src, callback) {
+      const img = new Image()
+      img.src = src
+      img.onload = function () {
+        const canvas = document.createElement('canvas')
+        canvas.width = img.height
+        canvas.height = img.width
+        canvas.style.position = "absolute"
+        const ctx = canvas.getContext("2d")
+        ctx.translate(img.height, img.width / img.height)
+        ctx.rotate(Math.PI / 2)
+        ctx.drawImage(img, 0, 0)
+        callback(canvas.toDataURL())
+      }
+    }
+
+  </script>
+</body>
+
+</html>
